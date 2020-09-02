@@ -32,6 +32,15 @@ public class Block : Object
         _LiveRound = 0;
     }
 
+    new private void Update()
+    {
+        base.Update();
+
+        transform.localPosition = Vector3.MoveTowards
+            (transform.localPosition, transform.localPosition - new Vector3(0,  _MoveDownPos),
+            Time.smoothDeltaTime * _MoveDownPos/BlockMng.Data.MakeTimeDelay);
+    }
+
     public virtual void UseBlock(Vector2 pos,int hp,float movedownpos,BLOCKTYPE blocktype)
     {
         base.Init(pos);

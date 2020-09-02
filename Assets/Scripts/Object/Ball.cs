@@ -32,6 +32,15 @@ public class Ball : Object
         
     }
 
+    new private void Update()
+    {
+        base.Update();
+        if(transform.localPosition.y<6)
+        {
+            LandingBall();
+        }
+    }
+
     void SpeedReset()
     {
         float angle = Mathf.Atan2(_Rigidbody.velocity.y, _Rigidbody.velocity.x);
@@ -83,16 +92,12 @@ public class Ball : Object
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Paddle"))
-        {
-            LandingBall();
 
-        }
     }
 
     void LandingBall()
     {
-
+        gameObject.SetActive(false);
     }
 
     public void Other_LandingBall()

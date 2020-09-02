@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c691d2bad44b545089fd2d546b7bb640, type: 3}
-  m_Color: {r: 1, g: 0.8277161, b: 0.3160377, a: 1}
+  m_Color: {r: 1, g: 0.23277296, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,6 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d69e6f1c130d48e7912fae6b32b959a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _Lerping: 0
+  _LerpTargetPos: {x: 0, y: 0, z: 0}
 --- !u!58 &4079685640515462237
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -231,8 +233,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.82745105, b: 0.31764707, a: 0.5176471}
-      key1: {r: 1, g: 0.82745105, b: 0.31764707, a: 0}
+      key0: {r: 1, g: 0.23137257, b: 0.003921569, a: 0.5176471}
+      key1: {r: 1, g: 0.23137257, b: 0.003921569, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

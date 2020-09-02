@@ -46,12 +46,12 @@ public class BlockDust : MonoBehaviour
             _LerpPlus += Time.smoothDeltaTime;
 
             //TODO : 어떤 위치로 이동시켜줄지 바꿔야함
-            Vector2 ballPos = BallMng.Data.GetMainBallPos();
+            Vector2 targetpos = BlockDustMng.Data._DustTargetPos;
 
-            transform.localPosition = Vector2.Lerp(transform.localPosition, ballPos, 0.15f+ _LerpPlus);
-            if (Vector2.Distance(transform.localPosition, ballPos) < 0.1f)
+            transform.localPosition = Vector2.Lerp(transform.localPosition, targetpos, 0.15f+ _LerpPlus);
+            if (Vector2.Distance(transform.localPosition, targetpos) < 0.1f)
             {
-                transform.localPosition = ballPos;
+                transform.localPosition = targetpos;
                 _Lerping_2 = false;
                 gameObject.SetActive(false);
             }

@@ -42,10 +42,15 @@ public class BlockMng : MonoBehaviour
     readonly float _MakeBlockChanceMax = 4;
     int _NowTurnsBlockHp;
 
+    float _MakeTime;
+    float _MakeTimeDelay = 2.0f;
+    
+
     /// <summary>
     /// 생성될 블럭 데이터가 저장되는 배열
     /// </summary>
-    int[] _IsBlockArray = new int[6];
+    readonly int _BlockArraySize = 5;
+    int[] _IsBlockArray;
 
     //임시 보스 관련 객체
     [SerializeField] Block _Boss;
@@ -56,10 +61,12 @@ public class BlockMng : MonoBehaviour
     {
         _NowTurnsBlockHp = 1;
         _BossHp = 1000;
+        _MakeTime = _MakeTimeDelay;
+        _IsBlockArray = new int[_BlockArraySize];
 
         _UsingBlockNum = 0;
         
-        _MakeBlockChance = 2;
+        _MakeBlockChance = 3;
 
         for (int i = 0; i < _MAXBLOCKNUM; i++)
         {
@@ -70,28 +77,39 @@ public class BlockMng : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        _MakeTime += Time.smoothDeltaTime;
+        if(_MakeTime>=_MakeTimeDelay)
+        {
+            _MakeTime -= _MakeTimeDelay;
+            MakeBlock();
+        }
+    }
+
     public void MakeBlock()
     {
         int temphp = _NowTurnsBlockHp;
-        float base_y = 9.6f;
+        float base_y = 20.0f;
         float rate = 1.1f;
 
         CreateNewBlockArray();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < _BlockArraySize; i++)
         {
             if(_IsBlockArray[i]!=0)
             {
                 BLOCKTYPE nowtype = (BLOCKTYPE)_IsBlockArray[i];
                 _BlockList[_UsingBlockNum].gameObject.SetActive(true);
                 _BlockList[_UsingBlockNum].MakeInit();
-                _BlockList[_UsingBlockNum].UseBlock(new Vector2(0.9f + i * 1.8f, base_y), temphp, rate, nowtype);
+                _BlockList[_UsingBlockNum].UseBlock(new Vector2(1.8f + i * 1.8f, base_y), temphp, rate, nowtype);
                 _BlockList[_UsingBlockNum].SetChileInit();
                 _UsingBlockNum++;
                 if (_UsingBlockNum >= _MAXBLOCKNUM)
                     _UsingBlockNum = 0;
             }
         }
+        NextTurn();
     }
 
     public void NextTurn()
@@ -104,10 +122,10 @@ public class BlockMng : MonoBehaviour
 
     void CreateNewBlockArray()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < _BlockArraySize; i++)
             _IsBlockArray[i] = 0;
 
-        RandomLinearArray<int> array = new RandomLinearArray<int>(6,0);
+        RandomLinearArray<int> array = new RandomLinearArray<int>(_BlockArraySize, 0);
 
         int normalblockcount = Random.Range((int)(_MakeBlockChance - 1), (int)_MakeBlockChance);
         for (int i = 0; i < normalblockcount; i++)
@@ -119,4 +137,9 @@ public class BlockMng : MonoBehaviour
 
     public int GetBlockHP() { return _NowTurnsBlockHp; }
     public int[] GetBlockArray() { return _IsBlockArray; }
+    public float MakeTimeDelay
+    {
+        set { _MakeTimeDelay = value; }
+        get { return _MakeTimeDelay; }
+    }
 }

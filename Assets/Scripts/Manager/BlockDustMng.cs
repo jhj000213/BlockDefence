@@ -89,4 +89,11 @@ public class BlockDustMng : MonoBehaviour
                 _UsingDustNum = 0;
         }
     }
+
+
+    [SerializeField] Transform DustTargetPos;
+    public Vector2 _DustTargetPos
+    {
+        get { return DustTargetPos.transform.localPosition; }
+    }
 }

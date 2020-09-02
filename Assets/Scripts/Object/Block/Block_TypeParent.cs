@@ -41,7 +41,7 @@ public class Block_TypeParent : MonoBehaviour
 
     virtual protected void Hit()
     {
-        _HP -= BallMng.Data.GetBallDmg();
+        _HP -= BallMng.Data.BallDamage;
         if (_HP <= 0)
             Crash();
     }
