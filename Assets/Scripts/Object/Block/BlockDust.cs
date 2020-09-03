@@ -7,7 +7,7 @@ public class BlockDust : MonoBehaviour
     Vector2 _TargetPos;
     bool _Lerping_1 = false;
     bool _Lerping_2 = false;
-    readonly float _DustRange = 1.5f;
+    readonly float _DustRange = 2.6f;
     readonly float _DustScale = 0.4f;
     float _LerpPlus;
 

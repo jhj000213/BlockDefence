@@ -35,7 +35,7 @@ public class BallMng : MonoBehaviour
     [SerializeField] GameObject _ShootAngleLine;
 
 
-    readonly int _MaxBallCount = 100;
+    readonly int _MaxBallCount = 300;
     int _NowUsingBall = 0;
     readonly float _MinArrowAngle = 10.0f;
 
@@ -44,10 +44,13 @@ public class BallMng : MonoBehaviour
     public int _Auto_AngleSign = 1;
     public float _Auto_AngleRotateSpeedPerSecond = 0.66f;
 
+    bool _TrippleShot;
+
 
     //TODO : 이후 게임 시작 함수를 제작하여 씬에 들어왔을 경우 초기화 되도록 바꿔야함
     private void Start()
     {
+        _TrippleShot = false;
         _NowUsingBall = 0;
         _BallDamage = 1;//임시 데미지
         ShootDelay = 0.2f;
@@ -70,7 +73,8 @@ public class BallMng : MonoBehaviour
         if (_AutoShoot)
         {
             _Auto_NowAngle += Time.smoothDeltaTime * _Auto_AngleSign * _Auto_AngleRotateSpeedPerSecond * 180;
-            if(_Auto_NowAngle>=180- _MinArrowAngle)
+            _ShootAngleLine.transform.localEulerAngles = new Vector3(0, 0, _Auto_NowAngle);
+            if (_Auto_NowAngle>=180- _MinArrowAngle)
             {
                 _Auto_NowAngle = 180 - _MinArrowAngle;
                 _Auto_AngleSign = -1;
@@ -87,14 +91,38 @@ public class BallMng : MonoBehaviour
 
     public void Action_Shoot(Vector2 touchdownpos)
     {
-        float angle;
+        float angle,a1,a2;
         touchdownpos /= 100.0f;
         angle = Mathf.Atan2(touchdownpos.y - _ShootPos.y, touchdownpos.x - _ShootPos.x) * Mathf.Rad2Deg;
+        a1 = angle + 30;
+        a2 = angle - 30;
+
         if ((angle < _MinArrowAngle && angle >= 0) || (angle < 0 && angle > -90))
             angle = _MinArrowAngle;
         else if (angle > 180 - _MinArrowAngle || (angle < 0 && angle <= -90))
             angle = 180 - _MinArrowAngle;
 
+        if ((a1 < _MinArrowAngle && a1 >= 0) || (a1 < 0 && a1 > -90))
+            a1 = _MinArrowAngle;
+        else if (a1 > 180 - _MinArrowAngle || (a1 < 0 && a1 <= -90))
+            a1 = 180 - _MinArrowAngle;
+
+        if ((a2 < _MinArrowAngle && a2 >= 0) || (a2 < 0 && a2 > -90))
+            a2 = _MinArrowAngle;
+        else if (a2 > 180 - _MinArrowAngle || (a2 < 0 && a2 <= -90))
+            a2 = 180 - _MinArrowAngle;
+
+        //Debug.Log("a1 : " + a1 + " a2 : " + a2 + "an : " + angle);
+        Debug.Log(_ShootTime);
+        if (_TrippleShot)
+        {
+            if(Shoot(a1))
+            {
+                _ShootTime = 0;
+                Shoot(a2);
+                _ShootTime = 0;
+            }
+        }
         Shoot(angle);
     }
 
@@ -102,11 +130,11 @@ public class BallMng : MonoBehaviour
     /// 입력받은 각도로 공 발사
     /// </summary>
     /// <param name="angle">Degree값을 입력받음. 오른쪽을 겨냥하면 0도, 수직을 겨냥하면 90도 </param>
-    void Shoot(float angle)
+    bool Shoot(float angle)
     {
+        _ShootAngleLine.transform.localEulerAngles = new Vector3(0, 0, angle);
         if (_ShootTime <= 0.0f)
         {
-            _ShootAngleLine.transform.localEulerAngles = new Vector3(0, 0, angle);
             _ShootTime = _ShootDelay;
 
             _BallList[_NowUsingBall].transform.localPosition = _ShootPos;
@@ -115,8 +143,9 @@ public class BallMng : MonoBehaviour
             _NowUsingBall++;
             if (_NowUsingBall >= _MaxBallCount)
                 _NowUsingBall = 0;
+            return true;
         }
-        
+        return false;
     }
 
     public Vector2 GetMainBallPos() { return _BallList[0].GetPos(); }//TODO : 삭제하거나 수정해야됨
@@ -144,5 +173,10 @@ public class BallMng : MonoBehaviour
     {
         set { _BallDamage = value; }
         get { return _BallDamage; }
+    }
+    public bool TrippleShot
+    {
+        set { _TrippleShot = value; }
+        get { return _TrippleShot; }
     }
 }

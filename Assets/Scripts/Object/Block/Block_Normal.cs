@@ -51,7 +51,7 @@ public class Block_Normal : Block_TypeParent
     protected override void Crash()
     {
         CameraMng.Data.CameraAction();
-        BlockDustMng.Data.MakeDust(transform.localPosition, 15);
+        BlockDustMng.Data.MakeDust(transform.localPosition, 25);
         base.Crash();
     }
 

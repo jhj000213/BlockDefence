@@ -91,7 +91,7 @@ public class BlockMng : MonoBehaviour
     {
         int temphp = _NowTurnsBlockHp;
         float base_y = 20.0f;
-        float rate = 1.1f;
+        float rate = 0.9f;
 
         CreateNewBlockArray();
 
@@ -102,7 +102,7 @@ public class BlockMng : MonoBehaviour
                 BLOCKTYPE nowtype = (BLOCKTYPE)_IsBlockArray[i];
                 _BlockList[_UsingBlockNum].gameObject.SetActive(true);
                 _BlockList[_UsingBlockNum].MakeInit();
-                _BlockList[_UsingBlockNum].UseBlock(new Vector2(1.8f + i * 1.8f, base_y), temphp, rate, nowtype);
+                _BlockList[_UsingBlockNum].UseBlock(new Vector2(2.2f + i * 1.6f, base_y), temphp, rate, nowtype);
                 _BlockList[_UsingBlockNum].SetChileInit();
                 _UsingBlockNum++;
                 if (_UsingBlockNum >= _MAXBLOCKNUM)
@@ -127,7 +127,7 @@ public class BlockMng : MonoBehaviour
 
         RandomLinearArray<int> array = new RandomLinearArray<int>(_BlockArraySize, 0);
 
-        int normalblockcount = Random.Range((int)(_MakeBlockChance - 1), (int)_MakeBlockChance);
+        int normalblockcount = Random.Range((int)(_MakeBlockChance - 1.1f), (int)(_MakeBlockChance+1.1f));
         for (int i = 0; i < normalblockcount; i++)
             array.Insert((int)BLOCKTYPE.Normal);
 

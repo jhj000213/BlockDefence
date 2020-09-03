@@ -6,21 +6,28 @@ public class CheatMng : MonoBehaviour
 {
     public void SetAuto()
     {
-        BallMng.Data.AutoShoot = true;
+        BallMng.Data.AutoShoot = !BallMng.Data.AutoShoot;
     }
 
     public void SetAttackSpeedHigh()
     {
-        BallMng.Data.ShootDelay = 0.05f;
+        BallMng.Data.ShootDelay = 0.1f;
     }
 
     public void SetAttackDamageHigh()
     {
-        BallMng.Data.BallDamage = 5;
+        BallMng.Data.BallDamage += 3;
     }
 
     public void SetBlockMakeSpeedUp()
     {
-        BlockMng.Data.MakeTimeDelay = 0.7f;
+        BlockMng.Data.MakeTimeDelay -= 0.15f;
+        if (BlockMng.Data.MakeTimeDelay < 0.1f)
+            BlockMng.Data.MakeTimeDelay = 2.0f;
+    }
+
+    public void SetTrippleShot()
+    {
+        BallMng.Data.TrippleShot = !BallMng.Data.TrippleShot;
     }
 }

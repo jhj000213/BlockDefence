@@ -27,7 +27,7 @@ public class InputMng : MonoBehaviour
         //터치위치 해상도 대응
         _MouseNowPos = Input.mousePosition * new Vector2(1080.0f / Screen.width, 1920.0f / Screen.height);
 
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.X))
+        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.X))
         {
             _MouseDownPos = _MouseNowPos;
 
@@ -48,6 +48,10 @@ public class InputMng : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
         {
             _CheatMng.SetBlockMakeSpeedUp();
+        }
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            _CheatMng.SetTrippleShot();
         }
     }
 }
